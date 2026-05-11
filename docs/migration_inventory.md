@@ -44,6 +44,11 @@ Assessment:
 - The file already separates wall panels and opening behavior into modules.
 - The current shared library is not yet a direct drop-in because `mill_complex_wall_v11.scad` mixes opening cutouts with structural framing members and panel-specific geometry.
 
+Current status:
+- `front_face_frame_v1(...)` has been migrated to a shared `opening_face_frame_local(...)` helper.
+- `window_sash_v2(...)` has been migrated to a shared `window_sash_grid_local(...)` helper.
+- Wall framing, studs, grooves, and panel tongues remain local to avoid forcing Mill Complex structure into the shared library.
+
 Likely migration approach:
 - Keep panel shells, studs, tongues, and grooves local.
 - Replace duplicated opening-specific pieces incrementally.

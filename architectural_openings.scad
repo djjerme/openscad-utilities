@@ -51,6 +51,56 @@ module glass_panel(width, depth, height, z = 0) {
         translate([0, 0, z]) box_centered([width, depth, height]);
 }
 
+// Local-origin helpers are useful when a project already owns the wall shell
+// and only wants shared opening geometry.
+module opening_face_frame_local(width, height, frame_w = 3.2, frame_t = 0.9) {
+    difference() {
+        translate([-frame_w, -frame_t, -frame_w])
+            cube([width + 2 * frame_w, frame_t, height + 2 * frame_w]);
+
+        translate([0, -frame_t - 0.1, 0])
+            cube([width, frame_t + 0.2, height]);
+    }
+}
+
+module window_sash_grid_local(
+    width,
+    height,
+    depth,
+    frame_w = 1.8,
+    mullion_w = 1.2,
+    pane_cols = 2,
+    pane_rows = 2
+) {
+    cols = max(floor(pane_cols), 1);
+    rows = max(floor(pane_rows), 1);
+    clear_w = max(width - 2 * frame_w, 0.01);
+    clear_h = max(height - 2 * frame_w, 0.01);
+
+    difference() {
+        cube([width, depth, height]);
+
+        translate([frame_w, -0.1, frame_w])
+            cube([clear_w, depth + 0.2, clear_h]);
+    }
+
+    if (cols > 1) {
+        for (i = [1 : cols - 1]) {
+            x = frame_w + clear_w * i / cols - mullion_w / 2;
+            translate([x, 0, frame_w])
+                cube([mullion_w, depth, clear_h]);
+        }
+    }
+
+    if (rows > 1) {
+        for (i = [1 : rows - 1]) {
+            z = frame_w + clear_h * i / rows - mullion_w / 2;
+            translate([frame_w, 0, z])
+                cube([clear_w, depth, mullion_w]);
+        }
+    }
+}
+
 module mullion_bar(length, thickness, depth, vertical = true, z = 0) {
     if (vertical) {
         translate([0, 0, z]) box_centered([thickness, depth, length]);
