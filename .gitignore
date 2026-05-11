@@ -1,1 +1,7 @@
 tools/OpenSCAD/
+build/
+*.stl
+*.off
+*.3mf
+*.csg
+*.png

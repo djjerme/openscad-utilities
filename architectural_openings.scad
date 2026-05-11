@@ -260,5 +260,4 @@ module demo_scene() {
             decorative = true
         );
 }
-
-demo_scene();
+// Open examples/demo_scene.scad for a ready-to-render preview scene.
