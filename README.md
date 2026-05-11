@@ -79,3 +79,11 @@ door_unit(
 - The portable OpenSCAD runtime is intentionally excluded from git.
 - Generated geometry and preview outputs are ignored through `.gitignore`.
 - The launcher and installer are written to keep working after moving this folder.
+
+## Migration policy
+
+- Use this library as the default source of truth for new shared window and door geometry.
+- Keep project-specific wall systems, siding, framing, and recess behavior in the project until the same pattern appears in more than one build.
+- Promote new behavior into the library only when it is truly shared, and keep that promotion tied to a real migration case.
+
+The current migration inventory and project notes live in `docs/migration_inventory.md`.
