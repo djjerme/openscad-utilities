@@ -95,6 +95,12 @@ Assessment:
 - The small window trim is a likely candidate for future reuse.
 - The sliding door and recessed personnel door are highly style-specific and should stay local unless another project needs the same behavior.
 
+Current status:
+- `small_window_trim(...)` has been migrated to a shared `window_face_trim_local(...)` helper.
+- The helper was validated against both shed variants.
+- Non-recessed wall solids kept matching bounding boxes and volumes after migration.
+- Recessed and sliding door logic remains local for now.
+
 Likely migration approach:
 - Reuse only the rectangular window/door basics if they match.
 - Keep recessed pockets and sliding door detailing local for now.

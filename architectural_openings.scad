@@ -101,6 +101,65 @@ module window_sash_grid_local(
     }
 }
 
+module window_face_trim_local(
+    width,
+    height,
+    frame_w = 2.0,
+    frame_y = -2.0,
+    frame_depth = 2.0,
+    sill_width_extra = 1.0,
+    sill_front_extra = 1.2,
+    sill_height = 1.8,
+    sill_drop = 1.2,
+    mullion_y = -0.2,
+    mullion_depth = 0.9,
+    mullion_w = 1.5,
+    pane_cols = 2,
+    pane_rows = 2
+) {
+    cols = max(floor(pane_cols), 1);
+    rows = max(floor(pane_rows), 1);
+
+    translate([-frame_w, frame_y, -frame_w])
+        cube([width + 2 * frame_w, frame_depth, frame_w]);
+
+    translate([-frame_w, frame_y, height])
+        cube([width + 2 * frame_w, frame_depth, frame_w]);
+
+    translate([-frame_w, frame_y, -frame_w])
+        cube([frame_w, frame_depth, height + 2 * frame_w]);
+
+    translate([width, frame_y, -frame_w])
+        cube([frame_w, frame_depth, height + 2 * frame_w]);
+
+    translate([
+        -sill_width_extra,
+        frame_y - sill_front_extra,
+        -frame_w - sill_drop
+    ])
+        cube([
+            width + 2 * sill_width_extra,
+            frame_depth + sill_front_extra,
+            sill_height
+        ]);
+
+    if (cols > 1) {
+        for (i = [1 : cols - 1]) {
+            x = width * i / cols - mullion_w / 2;
+            translate([x, mullion_y, 0])
+                cube([mullion_w, mullion_depth, height]);
+        }
+    }
+
+    if (rows > 1) {
+        for (i = [1 : rows - 1]) {
+            z = height * i / rows - mullion_w / 2;
+            translate([0, mullion_y, z])
+                cube([width, mullion_depth, mullion_w]);
+        }
+    }
+}
+
 module mullion_bar(length, thickness, depth, vertical = true, z = 0) {
     if (vertical) {
         translate([0, 0, z]) box_centered([thickness, depth, length]);
